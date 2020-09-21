@@ -3,7 +3,7 @@ import express from 'express';
 
 const app = express();
 
-module.exports.app = app;
+//module.exports.app = app;
 
 app.use(express.static('./resources/pages'));
 
