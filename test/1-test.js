@@ -6,6 +6,7 @@ import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
 
+// eslint-disable-next-line no-unused-vars
 const should = chai.should();
 
 describe('server', () => {
