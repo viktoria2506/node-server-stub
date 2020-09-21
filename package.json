@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "nodejs-katas",
   "version": "1.0.0",
   "description": "Basic Node.js exercises",
