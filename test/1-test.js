@@ -6,7 +6,6 @@ import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
 
-// eslint-disable-next-line no-unused-vars
 const should = chai.should();
 
 describe('server', () => {
@@ -16,6 +15,7 @@ describe('server', () => {
             .get('/')
             .end((err, res) => {
                 res.should.have.status(200);
+                should.exist(res.body);
                 res.text.should.be.include('hello');
                 done();
             });
