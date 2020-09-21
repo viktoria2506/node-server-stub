@@ -27,9 +27,9 @@ describe('server', () => {
             .then(
                 () => {
                     requester.close();
-                    process.exit(1);
+                    setTimeout(process.exit, 400);
                 }
             )
-            ;
+        ;
     });
 });
