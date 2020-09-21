@@ -1,0 +1,33 @@
+{
+  "name": "nodejs-katas",
+  "version": "1.0.0",
+  "description": "Basic Node.js exercises",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint test",
+    "test": "mocha test/**/*-test.js",
+    "watch": "npm test -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreyBelym/nodejs-katas.git"
+  },
+  "author": "Developer Express Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndreyBelym/nodejs-katas/issues"
+  },
+  "homepage": "https://github.com/AndreyBelym/nodejs-katas#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "mocha": "^7.0.1",
+    "proxyquire": "^2.1.3",
+    "sinon": "^8.1.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "got": "^10.4.0"
+  }
+}
