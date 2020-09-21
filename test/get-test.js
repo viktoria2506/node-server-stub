@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 import {} from '../index.js';
-
+import assert from 'assert';
 import chai from 'chai';
 
 import chaiHttp from 'chai-http';
@@ -19,12 +19,17 @@ describe('server', () => {
         return requester
             .get('/')
             .then(responses => {
+                // eslint-disable-next-line no-undef
+                assert.strictEqual(responses.statusCode, 200);
                 responses.should.have.status(200);
                 responses.text.should.be.include('hello');
             })
             .then(
-                () => requester.close()
+                () => {
+                    requester.close();
+                    process.exit(1);
+                }
             )
-        ;
+            ;
     });
 });
