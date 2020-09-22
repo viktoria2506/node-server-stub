@@ -1,35 +1,20 @@
-process.env.NODE_ENV = 'test';
-
-import {} from '../index.js';
 import assert from 'assert';
-import chai from 'chai';
-
-import chaiHttp from 'chai-http';
-
-chai.use(chaiHttp);
-
-const should = chai.should();
-
-const url = 'http://localhost:1337';
+import got from 'got';
+import {} from '../index.js';
+import fs from 'fs';
 
 describe('server', () => {
-    it('get', () => {
-        const requester = chai.request(url).keepOpen();
+    it('get', async () => {
+        const url      = 'http://localhost:1337/';
+        const response = await got(url);
 
-        return requester
-            .get('/')
-            .then(responses => {
-                // eslint-disable-next-line no-undef
-                assert.strictEqual(responses.statusCode, 200);
-                responses.should.have.status(200);
-                responses.text.should.be.include('hello');
-            })
-            .then(
-                () => {
-                    requester.close();
-                    setTimeout(process.exit, 400);
-                }
-            )
-        ;
+        assert.strictEqual(response.statusCode, 200);
+        fs.readFile('./resources/pages/index.html', fileContent => {
+            console.log(fileContent.toString());
+            assert.strictEqual(response.text, fileContent.toString());
+        });
+        setTimeout(process.exit, 400);
     });
 });
+
+
