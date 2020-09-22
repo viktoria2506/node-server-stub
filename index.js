@@ -1,9 +1,9 @@
 import express from 'express';
 
 export default class Server {
-    constructor (port, app) {
+    constructor (port) {
         this.port = port;
-        this.app  = app;
+        this.app  = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
     }
