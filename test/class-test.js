@@ -1,9 +1,23 @@
-import { promises as fs } from 'fs';
+import express from 'express';
+import Server from '../index.js';
+import { config } from '../config.js';
 import got from 'got';
 import assert from 'assert';
-import {} from '../index.js';
+import { promises as fs } from 'fs';
 
 describe('server', () => {
+    let server = null;
+
+    before(async () => {
+        server = new Server(config.port, express());
+        await server.start();
+
+    });
+
+    after(async () => {
+        await server.finish();
+    });
+
     it('get', async () => {
         const result = await fs.readFile('./resources/pages/index.html', 'utf8');
         const url      = 'http://localhost:1337/';
@@ -11,6 +25,5 @@ describe('server', () => {
 
         assert.strictEqual(response.statusCode, 200);
         assert.strictEqual(response.body, result);
-        setTimeout(process.exit, 400);
     });
 });
