@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "nodejs-katas",
   "version": "1.0.0",
   "description": "Basic Node.js exercises",
@@ -20,7 +21,6 @@
   },
   "homepage": "https://github.com/AndreyBelym/nodejs-katas#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "mocha": "^7.0.1",
     "proxyquire": "^2.1.3",
