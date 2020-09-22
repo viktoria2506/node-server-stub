@@ -1,20 +1,16 @@
-import assert from 'assert';
+import { promises as fs } from 'fs';
 import got from 'got';
+import assert from 'assert';
 import {} from '../index.js';
-import fs from 'fs';
 
 describe('server', () => {
     it('get', async () => {
+        const result = await fs.readFile('./resources/pages/index.html', 'utf8');
         const url      = 'http://localhost:1337/';
         const response = await got(url);
 
         assert.strictEqual(response.statusCode, 200);
-        fs.readFile('./resources/pages/index.html', fileContent => {
-            console.log(fileContent.toString());
-            assert.strictEqual(response.text, fileContent.toString());
-        });
+        assert.strictEqual(response.body, result);
         setTimeout(process.exit, 400);
     });
 });
-
-
