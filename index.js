@@ -1,11 +1,25 @@
-import { config } from './config.js';
 import express from 'express';
 
-const app = express();
+export default class Server {
+    constructor (port) {
+        this.port = port;
+        this.app  = express();
+        this.app.use(express.static('./resources/pages'));
+        this.server = null;
+    }
 
-app.use(express.static('./resources/pages'));
+    async start () {
+        return new Promise(resolve => {
+            this.server = this.app.listen(this.port, resolve);
+            console.log(`Listening at http://localhost:${this.port}`);
+        });
+    }
 
-app.listen(config.port, () => {
-    console.log(`Example app listening at http://localhost:${config.port}`);
-});
+    async finish () {
+        return new Promise(resolve => {
+            this.server.close(resolve);
+            console.log('Process terminated');
+        });
+    }
+}
 
