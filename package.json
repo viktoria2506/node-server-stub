@@ -3,9 +3,9 @@
   "name": "nodejs-katas",
   "version": "1.0.0",
   "description": "Basic Node.js exercises",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "lint": "eslint .",
     "test": "npm run lint && mocha test/**/*-test.js",
     "watch": "npm test -- -w"

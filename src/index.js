@@ -1,8 +1,9 @@
 import express from 'express';
+import config from './config.js';
 
 export default class Server {
     constructor (port) {
-        this.port = port;
+        this.port = port || config.port;
         this.app  = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
