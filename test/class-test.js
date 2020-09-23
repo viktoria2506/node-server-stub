@@ -6,11 +6,13 @@ import { promises as fs } from 'fs';
 
 let servers = [];
 
-async function startServer (port) {
+async function startServer (port, needInclude = true, needRun = true) {
     const server = new Server(port);
 
-    await server.start();
-    servers.push(server);
+    if (needInclude)
+        servers.push(server);
+    if (needRun)
+        await server.start();
     return server;
 }
 
@@ -39,17 +41,26 @@ describe('static server', () => {
 
     it('еггог: port is already in use', async () => {
         await startServer(1348);
-        const server2 = new Server(1348);
+        const server2 = await startServer(1348, false, false);
 
-        servers.push(server2);
         await assert.rejects(
             async () => await server2.start(),
             { message: 'already in use' }
         );
     });
     it('error: close not running server', async () => {
-        const server = new Server(1348);
+        const server = await startServer(1348, false, false);
 
+        await assert.rejects(
+            async () => await server.finish(),
+            { message: 'cannot finish because it is not running' }
+        );
+    });
+
+    it('error: close again', async () => {
+        const server = await startServer(1338, false);
+
+        await server.finish();
         await assert.rejects(
             async () => await server.finish(),
             { message: 'cannot finish because it is not running' }

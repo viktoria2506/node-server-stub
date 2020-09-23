@@ -15,7 +15,8 @@ export default class Server {
                 resolve();
             });
 
-            this.server.on('error', () => {
+            this.server.on('error', error => {
+                this.server = null;
                 reject(new Error('already in use'));
             });
         });
@@ -25,10 +26,11 @@ export default class Server {
         return new Promise((resolve, reject) => {
             try {
                 this.server.close(() => {
+                    this.server = null;
                     console.log(`Process terminated ${this.port}`);
                     resolve();
                 });
-            } catch {
+            } catch (error) {
                 reject(new Error('cannot finish because it is not running'));
             }
         });
