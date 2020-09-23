@@ -55,6 +55,5 @@ describe('static server', () => {
             { message: 'not start' }
         );
     });
-
 });
 
