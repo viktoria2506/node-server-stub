@@ -26,6 +26,7 @@
     "got": "^10.4.0"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.0"
   }
 }

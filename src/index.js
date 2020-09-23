@@ -1,5 +1,6 @@
 import express from 'express';
 import config from './config.js';
+//import * as res from 'express';
 
 export default class Server {
     constructor (port) {
@@ -16,6 +17,22 @@ export default class Server {
                 resolve();
             });
 
+            this.app.get('/download', (req, res) => {
+                res.download('./resources/files/picture.jpg');
+                console.log('123');
+            });
+            this.app.post('/upload', (req, res) => {
+                console.log('456');
+                const file = req.file;
+                res.send(file);
+                //console.log(req.files.f.tempFilePath);
+
+                //console.log(req.files.f);
+            });
+            /*this.app.use(fileUpload({
+                //useTempFiles : true,
+                //tempFileDir : './resources/files/'
+            }));*/
             this.server.on('error', () => {
                 this.server = null;
                 reject(new Error('already in use'));
