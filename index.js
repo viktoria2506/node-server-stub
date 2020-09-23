@@ -29,7 +29,7 @@ export default class Server {
                     resolve();
                 });
             } catch {
-                reject(new Error('not start'));
+                reject(new Error('cannot finish because it is not running'));
             }
         });
     }

@@ -52,7 +52,7 @@ describe('static server', () => {
 
         await assert.rejects(
             async () => await server.finish(),
-            { message: 'not start' }
+            { message: 'cannot finish because it is not running' }
         );
     });
 });
