@@ -1,8 +1,8 @@
 # Static Server
 
-Static server returning html file.
-Starts express server on host and port from configuration and configures it to provide _resources/pages/index.html_ file.
+Class Server that has a constructor and 2 methods (start and finish).
+The tests create instance of Server and check the correctness of the returned content and the correctness of the errors being handled.
 
-* start - ``npm run start``
 
+* start - `` npm run start``
 * running tests - ``npm run test``
