@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint test",
-    "test": "eslint test && mocha test/**/*-test.js",
+    "test": "npm run lint && mocha test/**/*-test.js",
     "watch": "npm test -- -w"
   },
   "repository": {
