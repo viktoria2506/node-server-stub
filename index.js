@@ -9,17 +9,30 @@ export default class Server {
     }
 
     async start () {
-        return new Promise(resolve => {
-            this.server = this.app.listen(this.port, resolve);
-            console.log(`Listening at http://localhost:${this.port}`);
+        return new Promise((resolve, reject) => {
+            this.server = this.app.listen(this.port, () => {
+                console.log(`Listening at http://localhost:${this.port}`);
+                resolve();
+            });
+
+            this.server.on('error', error => {
+                this.server = null;
+                reject(new Error('already in use'));
+            });
         });
     }
 
     async finish () {
-        return new Promise(resolve => {
-            this.server.close(resolve);
-            console.log('Process terminated');
+        return new Promise((resolve, reject) => {
+            try {
+                this.server.close(() => {
+                    this.server = null;
+                    console.log(`Process terminated ${this.port}`);
+                    resolve();
+                });
+            } catch (error) {
+                reject(new Error('cannot finish because it is not running'));
+            }
         });
     }
 }
-
