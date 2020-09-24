@@ -79,8 +79,11 @@ describe('Download and upload', () => {
     const filePath = './test/data/' + fileName;
     const newPath  = './resources/upload/' + fileName;
 
-    after(async () => {
+    afterEach(async () => {
         await finishAll();
+    });
+
+    after(async () => {
         await fs.unlink(newPath);
     });
 
@@ -95,5 +98,21 @@ describe('Download and upload', () => {
         const res = await fs.stat(newPath);
 
         assert(res.isFile());
+    });
+
+    it('The file should download successfully', async () => {
+        const server = await startServer(1337);
+        const buf = await fs.readFile('./resources/files/picture.jpg', (err, buffer) => {
+            if (err)
+                throw err;
+            return buffer;
+        });
+
+        await request(server.app)
+            .get('/download')
+            .expect(200)
+            .then(response => {
+                assert(response.body, buf);
+            });
     });
 });
