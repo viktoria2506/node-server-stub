@@ -1,6 +1,7 @@
 import express from 'express';
 import config from './config.js';
-//import * as res from 'express';
+import fileUpload from 'express-fileupload';
+
 
 export default class Server {
     constructor (port) {
@@ -8,6 +9,10 @@ export default class Server {
         this.app  = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
+        this.app.use(fileUpload({
+            safeFileNames:     true,
+            preserveExtension: true
+        }));
     }
 
     async start () {
@@ -21,18 +26,19 @@ export default class Server {
                 res.download('./resources/files/picture.jpg');
                 console.log('123');
             });
+
+
             this.app.post('/upload', (req, res) => {
                 console.log('456');
-                const file = req.file;
-                res.send(file);
-                //console.log(req.files.f.tempFilePath);
+                const f = req.files.image;
 
-                //console.log(req.files.f);
+                f.mv( './resources/upload/' + f.name, () => {
+                    res.writeHead(200, { 'Content-Type': 'text/plain' });
+                    console.log('uploaded');
+                    res.write('Upload of file ' + f.name);
+                    res.end();
+                });
             });
-            /*this.app.use(fileUpload({
-                //useTempFiles : true,
-                //tempFileDir : './resources/files/'
-            }));*/
             this.server.on('error', () => {
                 this.server = null;
                 reject(new Error('already in use'));
