@@ -102,11 +102,7 @@ describe('Download and upload', () => {
 
     it('The file should download successfully', async () => {
         const server = await startServer(1337);
-        const buf = await fs.readFile('./resources/files/picture.jpg', (err, buffer) => {
-            if (err)
-                throw err;
-            return buffer;
-        });
+        const buf = await fs.readFile('./resources/files/picture.jpg');
 
         await request(server.app)
             .get('/download')
