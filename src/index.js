@@ -24,18 +24,16 @@ export default class Server {
 
             this.app.get('/download', (req, res) => {
                 res.download('./resources/files/picture.jpg');
-                console.log('123');
             });
 
 
             this.app.post('/upload', (req, res) => {
-                console.log('456');
-                const f = req.files.image;
+                const imagefile = req.files.image;
 
-                f.mv( './resources/upload/' + f.name, () => {
+                imagefile.mv( './resources/upload/' + imagefile.name, () => {
                     res.writeHead(200, { 'Content-Type': 'text/plain' });
-                    console.log('uploaded');
-                    res.write('Upload of file ' + f.name);
+                    console.log('File uploaded');
+                    res.write('Upload of file ' + imagefile.name);
                     res.end();
                 });
             });
