@@ -4,8 +4,9 @@ import fileUpload from 'express-fileupload';
 
 
 export default class Server {
-    constructor (port) {
+    constructor (port, host) {
         this.port = port || config.port;
+        this.host = host || config.host;
         this.app  = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
@@ -17,8 +18,8 @@ export default class Server {
 
     async start () {
         return new Promise((resolve, reject) => {
-            this.server = this.app.listen(this.port, () => {
-                console.log(`Listening at http://localhost:${this.port}`);
+            this.server = this.app.listen(this.port, this.host, () => {
+                console.log(`Listening at http://${this.host}:${this.port}`);
                 resolve();
             });
 
@@ -49,7 +50,7 @@ export default class Server {
             try {
                 this.server.close(() => {
                     this.server = null;
-                    console.log(`Process terminated ${this.port}`);
+                    console.log(`Process terminated (port = ${this.port}, host = ${this.host})`);
                     resolve();
                 });
             }
