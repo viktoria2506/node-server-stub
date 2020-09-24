@@ -10,13 +10,11 @@ let servers = [];
 async function startServer (port, needInclude = true, needRun = true) {
     const server = new Server(port);
 
-    if (needInclude) {
+    if (needInclude)
         servers.push(server);
-    }
 
-    if (needRun) {
+    if (needRun)
         await server.start();
-    }
 
     return server;
 }
