@@ -17,3 +17,4 @@ gulp.task('test', () => {
     return run('mocha test/**/*-test.js').exec();
 });
 
+gulp.task('check', gulp.series('lint', 'test'));
