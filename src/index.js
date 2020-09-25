@@ -1,9 +1,10 @@
+import config from '../src/config.js';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 
 
 export default class Server {
-    constructor (conf) {
+    constructor (conf = config) {
         this.config = conf;
         this.app  = express();
         this.app.use(express.static('./resources/pages'));
