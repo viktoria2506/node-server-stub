@@ -1,39 +1,33 @@
 import Server from '../src/index.js';
-import config from '../src/config.js';
-import got from 'got';
 import assert from 'assert';
+import got from 'got';
 import { promises as fs } from 'fs';
 
-let servers = [];
-
-async function startServer (port, host, needInclude = true, needRun = true) {
-    const server = new Server(port, host);
-
-    if (needInclude)
-        servers.push(server);
-
-    if (needRun)
-        await server.start();
-
-    return server;
-}
-
-async function finishAll () {
-    const closeServers = [];
-
-    servers.forEach(server => {
-        closeServers.push(server.finish());
-    });
-    await Promise.all(closeServers);
-    servers = [];
-}
 
 describe('Regression tests', () => {
-    it('Run server with custom host', async () => {
-        /*const server = startServer('1339', '127.0.0.1', false, false);
+    let server = null;
 
-         await assert.doesNotReject(
-            async () => await server.start()
-        );*/
+    afterEach(async () => {
+        return await Promise.allSettled([server.finish()]);
+    });
+
+    it('Run server with custom host', async () => {
+        server = new Server('1337', '127.0.0.1');
+
+        await server.start();
+
+        const result = await fs.readFile('./resources/pages/index.html', 'utf8');
+        const url      = 'http://127.0.0.1:1337/';
+        const response = await got(url);
+
+        assert.strictEqual(response.statusCode, 200);
+        assert.strictEqual(response.body, result);
+
+    });
+
+    it('Run server with wrong host', async () => {
+        server = new Server('1337', 'Wrong host');
+
+        await assert.rejects(async () => server.start());
     });
 });

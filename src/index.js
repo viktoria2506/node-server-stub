@@ -18,15 +18,20 @@ export default class Server {
 
     async start () {
         return new Promise((resolve, reject) => {
+
             this.server = this.app.listen(this.port, this.host, () => {
                 console.log(`Listening at http://${this.host}:${this.port}`);
                 resolve();
             });
 
+            this.server.on('error', () => {
+                this.server = null;
+                reject(new Error('already in use'));
+            });
+
             this.app.get('/download', (req, res) => {
                 res.download('./resources/files/picture.jpg');
             });
-
 
             this.app.post('/upload', (req, res) => {
                 const imagefile = req.files.image;
@@ -38,10 +43,6 @@ export default class Server {
                     res.end();
                 });
             });
-            this.server.on('error', () => {
-                this.server = null;
-                reject(new Error('already in use'));
-            });
         });
     }
 
@@ -49,8 +50,8 @@ export default class Server {
         return new Promise((resolve, reject) => {
             try {
                 this.server.close(() => {
-                    this.server = null;
                     console.log(`Process terminated (port = ${this.port}, host = ${this.host})`);
+                    this.server = null;
                     resolve();
                 });
             }
