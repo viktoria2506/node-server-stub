@@ -1,5 +1,5 @@
 import Server from '../src/index.js';
-import config from '../src/config.js';
+//import config from '../src/config.js';
 import got from 'got';
 import assert from 'assert';
 import { promises as fs } from 'fs';
@@ -7,13 +7,12 @@ import request from 'supertest';
 
 let servers = [];
 
-async function startServer (conf, needInclude = true, needRun = true) {
-    conf.host = conf.host || config.host;
-    conf.port = conf.port || config.port;
+async function startServer ({ conf, needInclude = true, needRun = true } = {}) {
     const server = new Server(conf);
 
     if (needInclude)
         servers.push(server);
+
 
     if (needRun)
         await server.start();
@@ -39,7 +38,7 @@ describe('static server', () => {
     it('return correct content and status', async () => {
         const result = await fs.readFile('./resources/pages/index.html', 'utf8');
 
-        await startServer(config);
+        await startServer();
         const url      = 'http://localhost:1337/';
         const response = await got(url);
 
@@ -48,8 +47,8 @@ describe('static server', () => {
     });
 
     it('еггог: port is already in use', async () => {
-        await startServer({ port: 1348 });
-        const server2 = await startServer({ port: 1348 }, false, false);
+        await startServer({ conf: { port: 1348 } });
+        const server2 = await startServer({ conf: { port: 1348 }, needInclude: false, needRun: false });
 
         await assert.rejects(
             async () => await server2.start(),
@@ -57,7 +56,7 @@ describe('static server', () => {
         );
     });
     it('error: close not running server', async () => {
-        const server = await startServer({ port: 1348 }, false, false);
+        const server = await startServer({ needInclude: false, needRun: false });
 
         await assert.rejects(
             async () => await server.finish(),
@@ -66,7 +65,7 @@ describe('static server', () => {
     });
 
     it('error: close again', async () => {
-        const server = await startServer({ port: 1348 }, false);
+        const server = await startServer({ needInclude: false });
 
         await server.finish();
         await assert.rejects(
@@ -90,7 +89,7 @@ describe('Download and upload', () => {
     });
 
     it('The file should upload successfully', async () => {
-        const server = await startServer({ port: 1337 });
+        const server = await startServer();
 
         await request(server.app)
             .post('/upload')
@@ -103,8 +102,8 @@ describe('Download and upload', () => {
     });
 
     it('The file should download successfully', async () => {
-        const server = await startServer({ port: 1337 });
-        const buf = await fs.readFile('./resources/files/picture.jpg');
+        const server = await startServer();
+        const buf    = await fs.readFile('./resources/files/picture.jpg');
 
         await request(server.app)
             .get('/download')

@@ -5,8 +5,12 @@ import fileUpload from 'express-fileupload';
 
 export default class Server {
     constructor (conf = config) {
-        this.config = conf;
-        this.app  = express();
+        this.config = {
+            port: conf.port || config.port,
+            host: conf.host || config.host
+        };
+
+        this.app = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
         this.app.use(fileUpload({
@@ -34,7 +38,7 @@ export default class Server {
             this.app.post('/upload', (req, res) => {
                 const imagefile = req.files.image;
 
-                imagefile.mv( './resources/upload/' + imagefile.name, () => {
+                imagefile.mv('./resources/upload/' + imagefile.name, () => {
                     res.writeHead(200, { 'Content-Type': 'text/plain' });
                     console.log('File uploaded');
                     res.write('Upload of file ' + imagefile.name);
