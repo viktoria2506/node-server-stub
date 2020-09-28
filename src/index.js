@@ -1,4 +1,4 @@
-import config from '../src/config.js';
+import config from './config.js';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 

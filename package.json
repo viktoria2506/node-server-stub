@@ -1,13 +1,13 @@
 {
-  "type": "module",
   "name": "nodejs-katas",
   "version": "1.0.0",
   "description": "Basic Node.js exercises",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "lint": "eslint .",
-    "test": "npm run lint && mocha test/**/*-test.js",
+    "build": "babel src -d dist",
+    "start": "node dist/app",
+    "lint": "eslint src test",
+    "test": "npm run lint && mocha --require babel-register test/**/*-test.js",
     "watch": "npm test -- -w"
   },
   "repository": {
@@ -21,16 +21,21 @@
   },
   "homepage": "https://github.com/AndreyBelym/nodejs-katas#readme",
   "devDependencies": {
+    "babel-register": "^6.26.0",
     "eslint": "^6.8.0",
     "got": "^10.4.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
+    "gulp-run": "^1.7.1",
     "mocha": "^7.0.1",
-    "supertest": "^4.0.2",
-    "gulp-run": "^1.7.1"
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.0"
+    "express-fileupload": "^1.2.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2017": "^6.24.1"
   }
 }
