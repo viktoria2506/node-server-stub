@@ -8,7 +8,11 @@ describe('Regression tests', () => {
     let server = null;
 
     afterEach(async () => {
-        return await Promise.allSettled([server.finish()]);
+        if (server) {
+            await server.finish();
+
+            server = null;
+        }
     });
 
     it('Run server with custom host', async () => {
@@ -19,19 +23,18 @@ describe('Regression tests', () => {
 
         await server.start();
 
-        const result = await fs.readFile('./resources/pages/index.html', 'utf8');
+        const result   = await fs.readFile('./resources/pages/index.html', 'utf8');
         const response = await got('http://127.0.0.1:1337/');
 
         assert.strictEqual(response.statusCode, 200);
         assert.strictEqual(response.body, result);
-
     });
 
     it('Run server with wrong host', async () => {
-        server = new Server({
+        const wrongServer = new Server({
             host: 'Wrong host'
         });
 
-        await assert.rejects(async () => server.start());
+        await assert.rejects(async () => wrongServer.start());
     });
 });
