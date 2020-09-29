@@ -1,4 +1,4 @@
-import Server from '../src/index.js';
+import Server from '../../src';
 import got from 'got';
 import assert from 'assert';
 import { promises as fs } from 'fs';
