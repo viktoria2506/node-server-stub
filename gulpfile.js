@@ -18,6 +18,12 @@ gulp.task('unit-test', () => {
     return run('mocha --require babel-register test/unit/*-test.js').exec();
 });
 
+gulp.task('testcafe', () => {
+    return run('testcafe chrome test/functional/test.js').exec();
+});
+
+gulp.task('check', gulp.series('lint', 'test', 'testcafe'));
+
 gulp.task('build', () => {
     return gulp.src('src/*.js')
         .pipe(babel())
@@ -29,3 +35,4 @@ gulp.task('run-server', () => {
 });
 
 gulp.task('start', gulp.series('build', 'run-server'));
+
