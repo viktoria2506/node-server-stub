@@ -40,8 +40,6 @@ export default class Server {
 
                 imagefile.mv( './resources/upload/' + imagefile.name, () => {
                     console.log('File uploaded');
-                    //document.location.href = 'http://localhost:63342/node-server-stub/resources/pages/SuccessUpload.html?_ijt=hmes24dvnn6207b999t9q4mlgb';
-                    //res.write('Upload of file ' + imagefile.name);
                     res.end();
                 });
             });
