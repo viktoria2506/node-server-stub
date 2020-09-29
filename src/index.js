@@ -35,10 +35,7 @@ export default class Server {
                 const imagefile = req.files.image;
 
                 imagefile.mv( './resources/upload/' + imagefile.name, () => {
-                    //res.writeHead(200, { 'Content-Type': 'text/plain' });
                     console.log('File uploaded');
-                    //document.location.href = 'http://localhost:63342/node-server-stub/resources/pages/SuccessUpload.html?_ijt=hmes24dvnn6207b999t9q4mlgb';
-                    //res.write('Upload of file ' + imagefile.name);
                     res.end();
                 });
             });
