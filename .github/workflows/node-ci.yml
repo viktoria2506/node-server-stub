@@ -24,4 +24,4 @@ jobs:
         CI: true
     - uses: DevExpress/testcafe-action@latest
       with:
-        args: "chrome test/test.js"
+        args: "chrome test/functional/test.js"
