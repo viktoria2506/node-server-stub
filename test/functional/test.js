@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 import { promises as fs } from 'fs';
-import Server from '../src/index.js';
+import Server from '../../src';
 import os from 'os';
 import path from 'path';
 
@@ -40,7 +40,7 @@ test('Upload file', async t => {
 
     files.push(uploadPath);
     await t
-        .setFilesToUpload(Selector('input').withAttribute('type', 'file'), './data/imagetest.jpg')
+        .setFilesToUpload(Selector('input').withAttribute('type', 'file'), '../data/imagetest.jpg')
         .click(sub);
     await t
         .expect((await fs.stat(uploadPath)).isFile()).eql(true);

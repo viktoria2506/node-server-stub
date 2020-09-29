@@ -8,7 +8,7 @@
     "start": "node dist/app",
     "lint": "eslint src test",
     "test": "npm run lint && mocha --require babel-register test/**/*-test.js",
-    "testcafe": "testcafe chrome test/test.js",
+    "testcafe": "testcafe chrome test/functional/test.js",
     "watch": "npm test -- -w"
   },
   "repository": {
@@ -24,6 +24,7 @@
   "devDependencies": {
     "babel-register": "^6.26.0",
     "eslint": "^6.8.0",
+    "eslint-plugin-testcafe": "^0.2.1",
     "got": "^10.4.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",

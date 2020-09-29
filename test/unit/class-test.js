@@ -1,5 +1,5 @@
-import Server from '../src/index.js';
-import config from '../src/config.js';
+import Server from '../../src';
+import config from '../../src/config.js';
 import got from 'got';
 import assert from 'assert';
 import { promises as fs } from 'fs';
