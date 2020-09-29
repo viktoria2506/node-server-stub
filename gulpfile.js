@@ -21,4 +21,8 @@ gulp.task('start', () => {
     return run('node src/app.js').exec();
 });
 
-gulp.task('check', gulp.series('lint', 'test'));
+gulp.task('testcafe', () => {
+    return run('testcafe chrome test/functional/test.js').exec();
+});
+
+gulp.task('check', gulp.series('lint', 'test', 'testcafe'));
