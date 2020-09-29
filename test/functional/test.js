@@ -23,7 +23,7 @@ fixture`Download and Upload`
     .before(async () => {
         server = new Server();
 
-        await server.start();
+        server.start();
     })
     .after(async () => {
         for (let i = 0; i < files.length; i++)
@@ -40,7 +40,7 @@ test('Download file', async () => {
     files.push(downloadPath);
     await t
         .click(pict);
-    const res = waitForFileDownload(downloadPath);
+    const res = await waitForFileDownload(downloadPath);
 
     assert(res, true);
 });
@@ -54,7 +54,7 @@ test('Upload file', async () => {
     await t
         .setFilesToUpload(Selector('input').withAttribute('type', 'file'), '../data/imagetest.jpg')
         .click(sub);
-    const res = waitForFileDownload(uploadPath);
+    const res = await waitForFileDownload(uploadPath);
 
     assert(res, true);
 });
