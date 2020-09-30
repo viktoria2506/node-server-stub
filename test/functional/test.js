@@ -42,7 +42,7 @@ test('Download file', async () => {
         .click(pict);
     const res = await waitForFileDownload(downloadPath);
 
-    assert(res, true);
+    assert.strictEqual(res, true);
 });
 
 
@@ -56,7 +56,7 @@ test('Upload file', async () => {
         .click(sub);
     const res = await waitForFileDownload(uploadPath);
 
-    assert(res, true);
+    assert.strictEqual(res, true);
 });
 
 
