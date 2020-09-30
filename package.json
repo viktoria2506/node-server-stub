@@ -27,6 +27,7 @@
     "eslint-plugin-testcafe": "^0.2.1",
     "got": "^10.4.0",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-eslint": "^6.0.0",
     "gulp-run": "^1.7.1",
     "mocha": "^7.0.1",

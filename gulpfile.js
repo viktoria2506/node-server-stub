@@ -1,6 +1,6 @@
-import gulp from 'gulp';
-import run from 'gulp-run';
-import eslint from 'gulp-eslint';
+const gulp = require('gulp');
+const run    = require('gulp-run');
+const eslint = require('gulp-eslint');
 
 gulp.task('lint', () => {
     return gulp
