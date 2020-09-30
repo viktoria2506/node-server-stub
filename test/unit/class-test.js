@@ -1,4 +1,4 @@
-import Server from '../../src';
+import Server from '../../src/index.js';
 import config from '../../src/config.js';
 import got from 'got';
 import assert from 'assert';
