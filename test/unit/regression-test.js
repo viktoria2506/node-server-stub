@@ -1,8 +1,8 @@
-import Server from '../src/index.js';
 import assert from 'assert';
 import got from 'got';
 import { promises as fs } from 'fs';
 
+import Server from '../../src/index.js';
 
 describe('Regression tests', () => {
     let server = null;

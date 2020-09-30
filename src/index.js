@@ -1,7 +1,8 @@
-import config from './config.js';
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import path from 'path';
 
+import config from './config.js';
 
 export default class Server {
     constructor (conf = config) {
@@ -13,6 +14,7 @@ export default class Server {
         this.app = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
+        this.connections = new Set([]);
         this.app.use(fileUpload({
             safeFileNames:     true,
             preserveExtension: true
@@ -31,6 +33,13 @@ export default class Server {
                 reject(new Error('already in use'));
             });
 
+            this.server.on('connection', connection => {
+                this.connections.add(connection);
+                connection.on('close', () => {
+                    this.connections.delete(connection);
+                });
+            });
+
             this.app.get('/download', (req, res) => {
                 res.download('./resources/files/picture.jpg');
             });
@@ -38,11 +47,9 @@ export default class Server {
             this.app.post('/upload', (req, res) => {
                 const imagefile = req.files.image;
 
-                imagefile.mv('./resources/upload/' + imagefile.name, () => {
-                    res.writeHead(200, { 'Content-Type': 'text/plain' });
+                imagefile.mv( './resources/upload/' + imagefile.name, () => {
                     console.log('File uploaded');
-                    res.write('Upload of file ' + imagefile.name);
-                    res.end();
+                    res.sendFile(path.join(__dirname, '../resources/pages/SuccessUpload.html'));
                 });
             });
         });
@@ -51,6 +58,7 @@ export default class Server {
     async finish () {
         return new Promise((resolve, reject) => {
             try {
+                this.connections.forEach(connection => connection.destroy());
                 this.server.close(() => {
                     console.log(`Process terminated (port = ${this.config.port}, host = ${this.config.host})`);
                     this.server = null;

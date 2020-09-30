@@ -22,3 +22,6 @@ jobs:
     - run: npm run test
       env:
         CI: true
+    - uses: DevExpress/testcafe-action@latest
+      with:
+        args: "chrome test/functional/test.js"
