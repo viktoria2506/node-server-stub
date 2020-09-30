@@ -9,6 +9,7 @@ export default class Server {
         this.app  = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
+        this.connections = [];
         this.app.use(fileUpload({
             safeFileNames:     true,
             preserveExtension: true
@@ -25,6 +26,10 @@ export default class Server {
             this.server.on('error', () => {
                 this.server = null;
                 reject(new Error('already in use'));
+            });
+
+            this.server.on('connection', connection => {
+                this.connections.push(connection);
             });
 
             this.app.get('/download', (req, res) => {
@@ -45,6 +50,7 @@ export default class Server {
     async finish () {
         return new Promise((resolve, reject) => {
             try {
+                this.connections.forEach(connection => connection.destroy());
                 this.server.close(() => {
                     console.log(`Process terminated (port = ${this.config.port}, host = ${this.config.host})`);
                     this.server = null;
