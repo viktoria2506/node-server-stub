@@ -39,7 +39,6 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-es2017": "^6.24.1",
-    "testcafe-browser-tools": "^2.0.13"
+    "babel-preset-es2017": "^6.24.1"
   }
 }
