@@ -2,6 +2,7 @@ const gulp     = require('gulp');
 const run      = require('gulp-run');
 const eslint   = require('gulp-eslint');
 const babel    = require('gulp-babel');
+const testcafe = require('gulp-testcafe');
 
 
 gulp.task('lint', () => {
@@ -19,11 +20,12 @@ gulp.task('unit-test', () => {
     return run('mocha --require babel-register test/unit/*-test.js').exec();
 });
 
-gulp.task('testcafe', () => {
-    return run('testcafe chrome test/functional/test.js').exec();
+gulp.task('functional-test', () => {
+    return gulp.src('test/functional/**/*.js')
+        .pipe(testcafe({ browsers: ['chrome'], reporter: { name: 'spec' } }));
 });
 
-gulp.task('check', gulp.series('lint', 'test', 'testcafe'));
+gulp.task('check', gulp.series('lint', 'unit-test', 'functional-test'));
 
 gulp.task('build', () => {
     return gulp.src('src/*.js')

@@ -7,7 +7,7 @@
     "build": "babel src -d dist",
     "start": "node dist/app",
     "lint": "eslint src test gulpfile.js",
-    "test": "npm run lint && mocha --require babel-register test/*-test.js",
+    "test": "npm run lint && mocha --require babel-register test/unit/*-test.js",
     "testcafe": "testcafe chrome test/functional/**/*.js",
     "watch": "npm test -- -w"
   },
@@ -41,8 +41,6 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2017": "^6.24.1",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.0",
-    "gulp-testcafe": "^1.1.0",
-    "testcafe-browser-tools": "^2.0.13"
+    "express-fileupload": "^1.2.0"
   }
 }
