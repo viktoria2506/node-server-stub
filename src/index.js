@@ -1,7 +1,8 @@
-import config from './config.js';
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import path from 'path';
 
+import config from './config.js';
 
 export default class Server {
     constructor (conf = config) {
@@ -9,7 +10,7 @@ export default class Server {
         this.app  = express();
         this.app.use(express.static('./resources/pages'));
         this.server = null;
-        this.connections = [];
+        this.connections = new Set([]);
         this.app.use(fileUpload({
             safeFileNames:     true,
             preserveExtension: true
@@ -29,7 +30,10 @@ export default class Server {
             });
 
             this.server.on('connection', connection => {
-                this.connections.push(connection);
+                this.connections.add(connection);
+                connection.on('close', () => {
+                    this.connections.delete(connection);
+                });
             });
 
             this.app.get('/download', (req, res) => {
@@ -41,6 +45,7 @@ export default class Server {
 
                 imagefile.mv( './resources/upload/' + imagefile.name, () => {
                     console.log('File uploaded');
+                    res.sendFile(path.join(__dirname, '../resources/pages/SuccessUpload.html'));
                     res.end();
                 });
             });
