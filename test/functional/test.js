@@ -33,7 +33,7 @@ fixture`Download and Upload`
     });
 
 
-/*test('Download file', async () => {
+test('Download file', async () => {
     const pict         = Selector('a[href="/download"]');
     const downloadPath = path.join(os.homedir(), 'Downloads', 'picture.jpg');
 
@@ -43,14 +43,15 @@ fixture`Download and Upload`
     const res = await waitForFileDownload(downloadPath);
 
     assert.strictEqual(res, true);
-});*/
+});
 
 
 test('Upload file', async () => {
     const sub        = Selector('[type="submit"]');
-    const uploadPath = path.join(os.homedir(), 'node-server-stub', 'resources', 'upload', 'imagetest.jpg');
+    const uploadPath = path.join('resources', 'upload', 'imagetest.jpg');
 
     files.push(uploadPath);
+
     await t
         .setFilesToUpload(Selector('input').withAttribute('type', 'file'), '../data/imagetest.jpg')
         .click(sub);
