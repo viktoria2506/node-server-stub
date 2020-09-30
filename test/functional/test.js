@@ -26,14 +26,14 @@ fixture`Download and Upload`
         server.start();
     })
     .after(async () => {
-        for (let i = 0; i < files.length - 1; i++)
+        for (let i = 0; i < files.length; i++)
             fs.unlinkSync(files[i]);
         files = [];
         server.finish();
     });
 
 
-test('Download file', async () => {
+/*test('Download file', async () => {
     const pict         = Selector('a[href="/download"]');
     const downloadPath = path.join(os.homedir(), 'Downloads', 'picture.jpg');
 
@@ -43,7 +43,7 @@ test('Download file', async () => {
     const res = await waitForFileDownload(downloadPath);
 
     assert.strictEqual(res, true);
-});
+});*/
 
 
 test('Upload file', async () => {
