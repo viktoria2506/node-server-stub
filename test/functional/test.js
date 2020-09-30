@@ -32,15 +32,15 @@ fixture`Download and Upload`
 
 
 test('Download file', async () => {
-    const downloadLinc = Selector('a[href="/download"]');
+    const downloadLink = Selector('a[href="/download"]');
     const downloadPath = path.join(os.homedir(), 'Downloads', 'picture.jpg');
 
     files.push(downloadPath);
     await t
-        .click(downloadLinc);
+        .click(downloadLink);
     const res = await waitForFileDownload(downloadPath);
 
-    await t.expect(res).eql(true);
+    await t.expect(res).ok();
 });
 
 
@@ -55,7 +55,7 @@ test('Upload file', async () => {
         .click(submitButton);
     const res = await waitForFileDownload(resultPath);
 
-    await t.expect(res).eql(true);
+    await t.expect(res).ok();
 });
 
 
