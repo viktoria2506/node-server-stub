@@ -36,7 +36,6 @@
     "testcafe": "^1.9.3"
   },
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",

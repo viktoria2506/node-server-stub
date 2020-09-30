@@ -1,9 +1,9 @@
 import { Selector, t } from 'testcafe';
 import fs from 'fs';
-import Server from '../../src';
 import os from 'os';
 import path from 'path';
-import assert from 'assert';
+
+import Server from '../../src/index.js';
 
 let server = null;
 let files  = [];
@@ -22,42 +22,40 @@ fixture`Download and Upload`
     .page`http://localhost:1337`
     .before(async () => {
         server = new Server();
-
-        server.start();
+        await server.start();
     })
     .after(async () => {
-        for (let i = 0; i < files.length; i++)
-            fs.unlinkSync(files[i]);
+        files.forEach(file => fs.unlinkSync(file));
         files = [];
-        server.finish();
+        await server.finish();
     });
 
 
 test('Download file', async () => {
-    const pict         = Selector('a[href="/download"]');
+    const downloadLinc = Selector('a[href="/download"]');
     const downloadPath = path.join(os.homedir(), 'Downloads', 'picture.jpg');
 
     files.push(downloadPath);
     await t
-        .click(pict);
+        .click(downloadLinc);
     const res = await waitForFileDownload(downloadPath);
 
-    assert.strictEqual(res, true);
+    await t.expect(res).eql(true);
 });
 
 
 test('Upload file', async () => {
-    const sub        = Selector('[type="submit"]');
-    const uploadPath = path.join('resources', 'upload', 'imagetest.jpg');
+    const submitButton = Selector('[type="submit"]');
+    const resultPath   = path.join('resources', 'upload', 'imagetest.jpg');
+    const uploadPath = '../data/imagetest.jpg';
 
-    files.push(uploadPath);
-
+    files.push(resultPath);
     await t
-        .setFilesToUpload(Selector('input').withAttribute('type', 'file'), '../data/imagetest.jpg')
-        .click(sub);
-    const res = await waitForFileDownload(uploadPath);
+        .setFilesToUpload(Selector('input').withAttribute('type', 'file'), uploadPath)
+        .click(submitButton);
+    const res = await waitForFileDownload(resultPath);
 
-    assert.strictEqual(res, true);
+    await t.expect(res).eql(true);
 });
 
 
