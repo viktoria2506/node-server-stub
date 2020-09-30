@@ -3,6 +3,7 @@ const run      = require('gulp-run');
 const eslint   = require('gulp-eslint');
 const babel    = require('gulp-babel');
 
+
 gulp.task('lint', () => {
     return gulp
         .src(['**/*.js', 'gulpfile.js', '!node_modules/**', '!dist/**'])
