@@ -1,10 +1,12 @@
 const gulp = require('gulp');
 const run    = require('gulp-run');
 const eslint = require('gulp-eslint');
+const testcafe = require('gulp-testcafe');
+const babel = require('gulp-babel');
 
 gulp.task('lint', () => {
     return gulp
-        .src(['**/*.js', '!node_modules/**'])
+        .src(['**/*.js', 'gulpfile.js', '!node_modules/**', '!dist/**'])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.results(results => {
@@ -13,16 +15,24 @@ gulp.task('lint', () => {
         }));
 });
 
-gulp.task('test', () => {
-    return run('mocha test/**/*-test.js').exec();
+gulp.task('unit-test', () => {
+    return run('mocha --require babel-register test/unit/*-test.js').exec();
 });
 
-gulp.task('start', () => {
-    return run('node src/app.js').exec();
+gulp.task('run-server', () => {
+    require('./dist/app');
 });
 
-gulp.task('testcafe', () => {
-    return run('testcafe chrome test/functional/test.js').exec();
+gulp.task('functional-test', () => {
+    return gulp.src('test/functional/**/*.js')
+        .pipe(testcafe({ browsers: ['chrome'], reporter: { name: 'spec' } }));
 });
 
-gulp.task('check', gulp.series('lint', 'test', 'testcafe'));
+gulp.task('check', gulp.series('lint', 'unit-test', 'functional-test'));
+
+gulp.task('build', () => {
+    return gulp.src('src/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('dist'));
+});
+
