@@ -26,7 +26,7 @@ fixture`Download and Upload`
         server.start();
     })
     .after(async () => {
-        for (let i = 0; i < files.length; i++)
+        for (let i = 0; i < files.length - 1; i++)
             fs.unlinkSync(files[i]);
         files = [];
         server.finish();
